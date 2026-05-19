@@ -1,0 +1,30 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "This is full stack todo app built using MERN stack. It allows users to create, read, update, and delete their todo items. The backend is built using Node.js and Express, while the frontend is built using React. MongoDB is used as the database to store the todo items.",
+  "keywords": [
+    "mern",
+    "todo",
+    "node",
+    "express",
+    "mongodb"
+  ],
+  "license": "ISC",
+  "author": "Noorul Hadi",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "ejs": "^5.0.2",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^7.2.0",
+    "morgan": "^1.10.1"
+  }
+}
