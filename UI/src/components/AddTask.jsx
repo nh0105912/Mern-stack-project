@@ -13,6 +13,7 @@ const AddTask = () => {
 
     try {
       let res = await fetch("http://localhost:3000/add-task", {
+        credentials: "include",
         method: "POST",
         body: JSON.stringify(taskData),
         headers: {
@@ -34,7 +35,7 @@ const AddTask = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-4 h-screen w-full">
-      <div className="w-1/2 bg-white shadow-2xl rounded-lg flex flex-col justify-center items-center">
+      <div className=" w-full lg:w-1/2 bg-white shadow-2xl rounded-lg flex flex-col justify-center items-center">
         <h1 className="text-3xl capitalize font-sans font-bold leading-tight text-black pt-6">
           Add New Task
         </h1>

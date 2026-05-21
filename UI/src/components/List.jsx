@@ -20,6 +20,7 @@ const List = () => {
   };
   const delTask = async (id) => {
     let url = await fetch(`http://localhost:3000/delete/`+id,{
+      credentials:'include',
       method:'delete'
     });
     let data = await url.json();
@@ -58,13 +59,14 @@ console.log(selected)
 
   const deleteAll= async()=>{
     console.log(selected)
-     let url = await fetch(`http://localhost:3000/delete-all/`,{
-      method:'delete',
-      body:JSON.stringify(selected),
-      headers:{
-        'Content-type':"Application/json"
-      }
-    });
+     let url = await fetch(`http://localhost:3000/delete-all/`, {
+       credentials: "include",
+       method: "delete",
+       body: JSON.stringify(selected),
+       headers: {
+         "Content-type": "Application/json",
+       },
+     });
     url=await url.json()
     if(url.success){
       getListData();
@@ -72,52 +74,62 @@ console.log(selected)
     
   }
   return (
-    <div className="mx-10">
-      <h1 className="font-bold my-4 text-3xl text-center">Task List </h1>
-      <button className="bg-red-600 hover:bg-red-700 px-4 py-1 ms-10 rounded-md text-white" onClick={deleteAll}>
+    <div className=" mx-2 lg:mx-10">
+      <h1 className="font-bold my-4 text-3xl text-center text-gray-800">
+        Todo List Tasks
+      </h1>
+
+      <button className="bg-red-600 hover:bg-red-700 px-4 py-1 lg:ms-20 rounded-sm text-white">
         Delete
       </button>
-      <ul className="grid grid-cols-[80px_80px_1fr_2fr_180px] gap-2 w-full px-10 my-10">
-        <li className="font-bold border p-2 bg-slate-300">
-          <input onChange={selectAll} type="checkbox" />
-        </li>
-        <li className="font-bold border p-2 bg-slate-300">S.NO</li>
-        <li className="font-bold border p-2 bg-slate-300">Title</li>
-        <li className="font-bold border p-2 bg-slate-300">Description</li>
-        <li className="font-bold border p-2 bg-slate-300">Action</li>
 
-        {taskData &&
-          taskData.map((item, index) => {
-            return (
-              <Fragment key={item._id}>
-                <li className="font-bold border p-2 ">
-                  <input
-                    type="checkbox"
-                    onChange={() => selectSingle(item._id)}
-                    checked={selected.includes(item._id)}
-                  />
-                </li>
-                <li className="border p-2">{index + 1}</li>
-                <li className="border p-2">{item.title}</li>
-                <li className="border p-2">{item.description}</li>
-                <li className="border p-2 flex gap-2">
-                  <button
-                    className="bg-red-600 hover:bg-red-700 px-4 py-1 rounded-md text-white "
-                    onClick={() => delTask(item._id)}
-                  >
-                    Delete
-                  </button>
-                  <Link
-                    to={"update/" + item._id}
-                    className="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded-md text-white ml-2"
-                  >
-                    update
-                  </Link>
-                </li>
-              </Fragment>
-            );
-          })}
-      </ul>
+      <div className="overflow-x-auto lg:ms-10 w-full my-10">
+        <ul className="min-w-[900px] grid grid-cols-[80px_80px_1fr_2fr_190px] gap-2 w-full px-4 lg:px-10">
+          <li className="font-bold border p-2 bg-gradient-to-r from-blue-900 to-teal-600">
+            <input onChange={selectAll} type="checkbox" />
+          </li>
+
+          <li className="font-bold border p-2 bg-gradient-to-r from-blue-900 to-teal-600">S.NO</li>
+          <li className="font-bold border p-2 bg-gradient-to-r from-blue-900 to-teal-600">Title</li>
+          <li className="font-bold border p-2 bg-gradient-to-r from-blue-900 to-teal-600">Description</li>
+          <li className="font-bold border p-2 bg-gradient-to-r from-blue-900 to-teal-600">Action</li>
+
+          {taskData &&
+            taskData.map((item, index) => {
+              return (
+                <Fragment key={item._id}>
+                  <li className="font-bold border p-2">
+                    <input
+                      type="checkbox"
+                      onChange={() => selectSingle(item._id)}
+                      checked={selected.includes(item._id)}
+                    />
+                  </li>
+
+                  <li className="border p-2">{index + 1}</li>
+                  <li className="border p-2">{item.title}</li>
+                  <li className="border p-2">{item.description}</li>
+
+                  <li className="border p-2 flex gap-2">
+                    <button
+                      className="bg-red-600 hover:bg-red-700 px-4 py-1 rounded-md text-white"
+                      onClick={() => delTask(item._id)}
+                    >
+                      Delete
+                    </button>
+
+                    <Link
+                      to={"update/" + item._id}
+                      className="bg-blue-600 hover:bg-blue-700 px-4 py-1 rounded-md text-white ml-2"
+                    >
+                      Update
+                    </Link>
+                  </li>
+                </Fragment>
+              );
+            })}
+        </ul>
+      </div>
     </div>
   );
 };

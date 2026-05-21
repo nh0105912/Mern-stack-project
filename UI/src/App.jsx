@@ -6,20 +6,35 @@ import List from './components/List'
 import UpdateTask from './components/UpdateTask'
 import SignUp from './components/SignUp'
 import Login from './components/Login'
+import Protected from './components/Protected'
 
 const App = () => {
   return (
     <>
-    <Navbar/>
-     <Routes>
-      <Route path="/" element={<List/>} />
-      <Route path="/add-task" element={<AddTask />} />
-      <Route path="/update/:id" element={<UpdateTask/>} />
-      <Route path='/signup' element={<SignUp/>}/>
-      <Route path='/login' element={<Login/>}/>
-     </Routes>
+      <Navbar />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Protected>
+              <List />
+            </Protected>
+          }
+        />
+        <Route
+          path="/add-task"
+          element={
+            <Protected>
+              <AddTask/>
+            </Protected>
+          }
+        />
+        <Route path="/update/:id" element={<UpdateTask />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </>
-  )
+  );
 }
 
 export default App

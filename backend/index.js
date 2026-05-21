@@ -24,7 +24,7 @@ app.use(cookiePaser())
 app.get("/", (req, res) => {
   res.send("backend working");
 });
-app.post("/add-task", async (req, res) => {
+app.post("/add-task", verifyJwttoken, async (req, res) => {
   let db = await connectDB();
   let collection = await db.collection(collectionName);
   const result = await collection.insertOne(req.body);
@@ -45,24 +45,8 @@ app.get("/tasks",verifyJwttoken, async (req, res) => {
   });
 });
 
-function verifyJwttoken(req,res,next){
-  console.log("verify jwt token ",req.cookies['token'])
-  let token = req.cookies["token"];
-  jwt.verify(token,"Googlecom",(err,decoded)=>{
-    if(err){
-      return res.send({
-        msg:"invalid token",
-        success:false
-      })
-    
-    }
-    console.log(decoded)
 
-  })
-  next()
-
-}
-app.get("/task/:id", async (req, res) => {
+app.get("/task/:id", verifyJwttoken, async (req, res) => {
   let db = await connectDB();
   const id = req.params;
   // console.log(id)
@@ -74,7 +58,7 @@ app.get("/task/:id", async (req, res) => {
     result,
   });
 });
-app.delete("/delete/:id", async (req, res) => {
+app.delete("/delete/:id", verifyJwttoken, async (req, res) => {
   let db = await connectDB();
   let id = req.params.id;
   let collection = await db.collection(collectionName);
@@ -85,7 +69,7 @@ app.delete("/delete/:id", async (req, res) => {
     result,
   });
 });
-app.delete("/delete-all", async (req, res) => {
+app.delete("/delete-all", verifyJwttoken, async (req, res) => {
   let db = await connectDB();
   let ids = req.body;
   let Objects = ids.map((item) => new ObjectId(item));
@@ -149,6 +133,20 @@ app.post("/login",async(req,res)=>{
   }
 
 })
+function verifyJwttoken(req, res, next) {
+  console.log("verify jwt token ", req.cookies["token"]);
+  let token = req.cookies["token"];
+  jwt.verify(token, "Googlecom", (err, decoded) => {
+    if (err) {
+      return res.send({
+        msg: "invalid token",
+        success: false,
+      });
+    }
+    console.log(decoded);
+  });
+  next();
+}
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
